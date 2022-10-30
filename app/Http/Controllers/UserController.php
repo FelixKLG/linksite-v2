@@ -15,7 +15,7 @@ class UserController extends Controller
 
     public function delete(User $user) {
         $user->delete();
-        return response()->setStatusCode(204);
+        return response()->noContent(204);
     }
 
     public function list() {
