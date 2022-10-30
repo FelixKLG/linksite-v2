@@ -33,7 +33,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
         Route::get('/', [UserController::class, 'list'])->name('list');
 
-        Route::delete('{user}', [UserController::class, 'get'])->name('delete')
+        Route::delete('{user}', [UserController::class, 'delete'])->name('delete')
             ->middleware('permission:users.delete');
 
         Route::get('{user}/purchases', [UserController::class, 'purchases'])->name('purchases')

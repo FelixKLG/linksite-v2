@@ -23,7 +23,8 @@ class DiscordController extends Controller
         $this->notification();
 
         // return redirect()->route('dashboard.index');
-        return redirect()->route('home');
+        // return redirect()->route('home');
+        return redirect()->route('linked');
     }
 
     public function notification()
