@@ -20,7 +20,7 @@ class DiscordController extends Controller
         $discordUser = Socialite::driver('discord')->user();
 
         $request->user()->update(['discordId' => $discordUser->id]);
-        // $this->notification();
+        $this->notification();
 
         // return redirect()->route('dashboard.index');
         return redirect()->route('home');
