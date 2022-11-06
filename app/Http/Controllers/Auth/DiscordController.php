@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,13 @@ class DiscordController extends Controller
     {
         $discordUser = Socialite::driver('discord')->user();
 
-        $request->user()->update(['discordId' => $discordUser->id]);
+        if (!User::where('discordId', $discordUser->id)->exists()) {
+            $request->user()->update(['discordId' => $discordUser->id]);
+        } else {
+            AuthController->remove();
+            return reditect()->route('home');
+        }
+
         $this->notification();
 
         // return redirect()->route('dashboard.index');
