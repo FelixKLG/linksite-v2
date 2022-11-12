@@ -28,10 +28,22 @@ class DiscordController extends Controller
         }
 
         $this->notification();
+        $this->assignRole();
 
         // return redirect()->route('dashboard.index');
         // return redirect()->route('home');
         return redirect()->route('linked');
+    }
+
+    public function assignRole() {
+        $discordToken = config('services.discord.api_token');
+        $guildId = config('services.discord.guild_id');
+        $roleId = config('services.discord.role_id');
+        
+        $user = Auth::user();
+
+        return Http::withToken($discordTokenm, 'Bot')
+            ->put("https://discord.com/api/guilds/$guildId/members/$user->discordId/roles/$roleId");
     }
 
     public function notification()
@@ -42,14 +54,14 @@ class DiscordController extends Controller
         return Http::post($discordWebhook, [
             'embeds' => [
                 [
-                    'title' => "Account Verified",
-                    'description' => "A new account has been linked.",
-                    'url' => "https://gmodstore.com/users/" . $user->steamId,
+                    'title' => "Account Created",
+                    'description' => "A new account has been created.",
+                    'url' => "https://gmodstore.com/users/$user->steamId",
                     'color' => '7506394',
                     'fields' => [
                         [
                             'name' => 'Discord Account',
-                            'value' => '<@' . $user->discordId . '>',
+                            'value' => "<@$user->discordId>",
                         ], [
                             'name' => 'Discord ID',
                             'value' => $user->discordId,
