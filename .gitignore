@@ -1,17 +1,27 @@
+# Package managers
 /node_modules
+/vendor
 /.yarn
+yarn-error.log
+npm-debug.log
+
+# Builds
 /public/build
 /public/hot
 /public/storage
+
+# Secrets
 /storage/*.key
-/vendor
 .env
 .env.backup
+
+# Misc
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
 auth.json
-npm-debug.log
-yarn-error.log
+.DS_Store
+
+# IDEs
 /.idea
 /.vscode
