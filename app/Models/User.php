@@ -83,7 +83,7 @@ class User extends Authenticatable
     {
         return Cache::remember("gms_purchases_$this->id", now()->addMinutes(20), function() {
             $httpResponse = Http::withToken(config('services.gmodstore.api_token'))
-                ->get('https://www.gmodstore.com/api/v3/users/' . $this->gmodStoreId . '/purchases', [
+                ->get("https://www.gmodstore.com/api/v3/users/$this->gmodStoreId/purchases", [
                     "perPage" => 100
                 ])->json();
 
