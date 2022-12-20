@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -23,8 +24,12 @@ class DiscordController extends Controller
         if (!User::where('discordId', $discordUser->id)->exists()) {
             $request->user()->update(['discordId' => $discordUser->id]);
         } else {
-            AuthController->remove();
-            return reditect()->route('home');
+            Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+//            AuthController->remove();
+            return redirect()->route('home');
         }
 
         $this->notification();
@@ -39,10 +44,10 @@ class DiscordController extends Controller
         $discordToken = config('services.discord.api_token');
         $guildId = config('services.discord.guild_id');
         $roleId = config('services.discord.role_id');
-        
+
         $user = Auth::user();
 
-        return Http::withToken($discordTokenm, 'Bot')
+        return Http::withToken($discordToken, 'Bot')
             ->put("https://discord.com/api/guilds/$guildId/members/$user->discordId/roles/$roleId");
     }
 
