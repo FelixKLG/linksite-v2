@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'steamId' => $this->steam_id,
             'discordId' => $this->discord_id,
             'gmodStoreId' => $this->gmod_store_id,
+            'avatar' => $this->avatar,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
