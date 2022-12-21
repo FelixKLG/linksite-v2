@@ -9,7 +9,7 @@ class HasDiscord
 {
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->discordId) {
+        if ($request->user()->discord_id) {
             return redirect()->route('linked');
         }
         return $next($request);
