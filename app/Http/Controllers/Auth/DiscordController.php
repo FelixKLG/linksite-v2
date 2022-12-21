@@ -21,26 +21,25 @@ class DiscordController extends Controller
     {
         $discordUser = Socialite::driver('discord')->user();
 
-        if (!User::where('discordId', $discordUser->id)->exists()) {
-            $request->user()->update(['discordId' => $discordUser->id]);
+        if (!User::where('discord_id', $discordUser->id)->exists()) {
+            $request->user()->update(['discord_id' => $discordUser->id]);
         } else {
             Auth::logout();
 
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-//            AuthController->remove();
+            // AuthController->remove();
             return redirect()->route('home');
         }
 
         $this->notification();
         $this->assignRole();
-
-        // return redirect()->route('dashboard.index');
-        // return redirect()->route('home');
+        
         return redirect()->route('linked');
     }
 
-    public function assignRole() {
+    public function assignRole()
+    {
         $discordToken = config('services.discord.api_token');
         $guildId = config('services.discord.guild_id');
         $roleId = config('services.discord.role_id');
@@ -48,7 +47,7 @@ class DiscordController extends Controller
         $user = Auth::user();
 
         return Http::withToken($discordToken, 'Bot')
-            ->put("https://discord.com/api/guilds/$guildId/members/$user->discordId/roles/$roleId");
+            ->put("https://discord.com/api/guilds/$guildId/members/$user->discord_id/roles/$roleId");
     }
 
     public function notification()
@@ -61,19 +60,19 @@ class DiscordController extends Controller
                 [
                     'title' => "Account Created",
                     'description' => "A new account has been created.",
-                    'url' => "https://gmodstore.com/users/$user->steamId",
+                    'url' => "https://gmodstore.com/users/$user->steam_id",
                     'color' => '7506394',
                     'fields' => [
                         [
                             'name' => 'Discord Account',
-                            'value' => "<@$user->discordId>",
+                            'value' => "<@$user->discord_id>",
                         ], [
                             'name' => 'Discord ID',
-                            'value' => $user->discordId,
+                            'value' => $user->discord_id,
                         ],
                         [
                             'name' => 'SteamID64',
-                            'value' => $user->steamId,
+                            'value' => $user->steam_id,
                         ]
                     ],
                     'thumbnail' => [

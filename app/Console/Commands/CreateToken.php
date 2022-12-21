@@ -29,7 +29,7 @@ class CreateToken extends Command
     public function handle()
     {
         $this->arguments('user') ?? this->ask('user');
-        $user = User::where('steamId', $this->argument('user'))->first();
+        $user = User::where('steam_id', $this->argument('user'))->first();
 
         $token = $user->createToken('CLI Created Token');
         $this->info($token->plainTextToken);

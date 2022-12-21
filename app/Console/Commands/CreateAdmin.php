@@ -28,7 +28,7 @@ class CreateAdmin extends Command
      */
     public function handle()
     {
-        $user = User::where('steamId', $this->argument('user'))->first();
+        $user = User::where('steam_id', $this->argument('user'))->first();
 
         $user->assignRole('admin');
         return Command::SUCCESS;

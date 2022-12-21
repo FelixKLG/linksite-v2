@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->string('name');
-            $table->bigInteger('steamId')->unique();
-            $table->bigInteger('discordId')->unique()->nullable();
-            $table->uuid('gmodStoreId')->unique()->nullable();
+            $table->bigInteger('steam_id')->unique();
+            $table->bigInteger('discord_id')->unique()->nullable();
+            $table->uuid('gmod_store_id')->unique()->nullable();
             $table->string('avatar');
             $table->timestamps();
         });

@@ -20,7 +20,7 @@ class SteamController extends Controller
         $steamUser = Socialite::driver('steam')->user();
 
         $user = User::firstOrCreate([
-            'steamId' => $steamUser->getId(),
+            'steam_id' => $steamUser->getId(),
         ], [
             'avatar' => $steamUser->getAvatar(),
             'name' => $steamUser->getNickname()

@@ -28,9 +28,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'steamId',
-        'discordId',
-        'gmodStoreId',
+        'steam_id',
+        'discord_id',
+        'gmod_store_id',
         'avatar',
     ];
 
@@ -67,13 +67,13 @@ class User extends Authenticatable
 
         $response = Http::withToken(config('services.gmodstore.api_token'))
             ->get('https://www.gmodstore.com/api/v3/users/', [
-                'filter[steamId]' => $this->steamId
+                'filter[steamId]' => $this->steam_id
             ]);
         $profiles = $response->json('data');
 
         if (count($profiles) > 0) {
             $this->update([
-                'gmodStoreId' => $profiles[0]['id']
+                'gmod_store_id' => $profiles[0]['id']
             ]);
             return $profiles[0]['id'];
         }
@@ -81,9 +81,9 @@ class User extends Authenticatable
 
     public function getPurchasesAttribute()
     {
-        return Cache::remember("gms_purchases_$this->id", now()->addMinutes(20), function() {
+        return Cache::remember("gms_purchases_$this->id", now()->addMinutes(20), function () {
             $httpResponse = Http::withToken(config('services.gmodstore.api_token'))
-                ->get("https://www.gmodstore.com/api/v3/users/$this->gmodStoreId/purchases", [
+                ->get("https://www.gmodstore.com/api/v3/users/$this->gmod_store_id/purchases", [
                     "perPage" => 100
                 ])->json();
 
