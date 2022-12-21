@@ -17,18 +17,18 @@ use App\Http\Controllers\UserController;
 
 
 
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users')->as('users.')->group(function () {
-        Route::prefix('me')->as('me.')->group(function() {
+        Route::prefix('me')->as('me.')->group(function () {
             Route::get('/', [UserController::class, 'me'])->name('info');
-            Route::get('purchases', )->name('purchases');
+            Route::get('purchases',)->name('purchases');
         });
 
-        Route::middleware('permission:users.query')->group(function() {
+        Route::middleware('permission:users.query')->group(function () {
             Route::get('{user}', [UserController::class, 'get'])->name('get');
-            Route::get('steam/{user:steamId}', [UserController::class, 'get'])->name('get.steamId');
-            Route::get('discord/{user:discordId}', [UserController::class, 'get'])->name('get.discordId');
-            Route::get('gmodstore/{user:gmodStoreId}', [UserController::class, 'get'])->name('get.gmodStoreId');
+            Route::get('steam/{user:steam_id}', [UserController::class, 'get'])->name('get.steamId');
+            Route::get('discord/{user:discord_id}', [UserController::class, 'get'])->name('get.discordId');
+            Route::get('gmodstore/{user:gmod_store_id}', [UserController::class, 'get'])->name('get.gmodStoreId');
         });
 
         Route::get('/', [UserController::class, 'list'])->name('list');
