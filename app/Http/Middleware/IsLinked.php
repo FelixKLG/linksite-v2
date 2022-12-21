@@ -9,7 +9,7 @@ class IsLinked
 {
     public function handle(Request $request, Closure $next)
     {
-        if(!$request->user()->discordId) {
+        if (!$request->user()->discord_id) {
             return redirect()->route('auth.discord');
         }
         return $next($request);
