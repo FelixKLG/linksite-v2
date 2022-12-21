@@ -18,7 +18,7 @@ return [
         // OAuth 2.0
         'client_id' => env('DISCORD_CLIENT_ID'),
         'client_secret' => env('DISCORD_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/auth/discord/callback',
+        'redirect' => env('APP_URL') . '/auth/discord/callback',
 
         // optional
         'allow_gif_avatars' => (bool) env('DISCORD_AVATAR_GIF', true),
@@ -34,11 +34,12 @@ return [
     'steam' => [
         'client_id' => null,
         'client_secret' => env('STEAM_API_KEY'),
-        'redirect' => env('APP_URL').'/auth/steam/callback',
+        'redirect' => env('APP_URL') . '/auth/steam/callback',
         'allowed_hosts' => [
             'localhost',
             'ley-link.test',
-            'leystryku.support'
+            'leystryku.support',
+            'beta.leystryku.support',
         ]
     ],
 
