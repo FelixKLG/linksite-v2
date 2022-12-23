@@ -84,19 +84,33 @@ class User extends Authenticatable
         return Cache::remember("gms_purchases_$this->id", now()->addMinutes(20), function () {
             $httpResponse = Http::withToken(config('services.gmodstore.api_token'))
                 ->get("https://www.gmodstore.com/api/v3/users/$this->gmod_store_id/purchases", [
-                    "perPage" => 100
+                    "perPage" => 25,
+                    "filter[revoked]" => false,
+                    "filter[productId][]" => [
+                        "6c5e862b-3dcf-4769-aa6b-8a001937c56b", // LSAC
+                        "773f2482-b72d-47cf-977b-bf6ac3653b57", // SwiftAC
+                        "244bfe2d-f39e-4adc-86eb-d4b7cbb1af2f", // Hitreg
+                        "60d1fabc-9afe-44b1-81b1-81f234f4e80f", // Screengrabs
+                        "c2ed35d6-db31-4a76-bf48-bdad343f2ff3", // WorkshopDL
+                        "5ed5f156-858a-4e6a-8b9a-0f926cdcf09b", // SexyErrors
+                    ],
                 ])->json();
 
             $data = collect($httpResponse['data']);
 
-            $ids = $data->filter(function ($purchase) {
-                return !$purchase['revoked'];
-            })->map(function ($purchase) {
+            $ids = $data->map(function ($purchase) {
                 return $purchase['productId'];
             });
 
             return [
-                "purchases" => $ids,
+                "data" => [
+                    "LSAC" => $ids->contains("6c5e862b-3dcf-4769-aa6b-8a001937c56b"),
+                    "SwiftAC" => $ids->contains("773f2482-b72d-47cf-977b-bf6ac3653b57"),
+                    "HitReg" => $ids->contains("244bfe2d-f39e-4adc-86eb-d4b7cbb1af2f"),
+                    "ScreenGrabs" => $ids->contains("60d1fabc-9afe-44b1-81b1-81f234f4e80f"),
+                    "WorkshopDL" => $ids->contains("c2ed35d6-db31-4a76-bf48-bdad343f2ff3"),
+                    "SexyErrors" => $ids->contains("5ed5f156-858a-4e6a-8b9a-0f926cdcf09b"),
+                ],
             ];
         });
     }
