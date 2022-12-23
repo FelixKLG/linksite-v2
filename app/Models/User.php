@@ -81,7 +81,8 @@ class User extends Authenticatable
 
     public function getPurchasesAttribute()
     {
-        return Cache::remember("gms_purchases_$this->id", now()->addMinutes(20), function () {
+        $user_id = $this->attributes["uuid"];
+        return Cache::remember("gms_purchases_$user_id", now()->addMinutes(20), function () {
             $httpResponse = Http::withToken(config('services.gmodstore.api_token'))
                 ->get("https://www.gmodstore.com/api/v3/users/$this->gmod_store_id/purchases", [
                     "perPage" => 25,
