@@ -79,5 +79,6 @@ class Kernel extends HttpKernel
         // Custom
         'has-discord' => \App\Http\Middleware\HasDiscord::class, // Prevent double-linking
         'is-linked' => \App\Http\Middleware\IsLinked::class, // Prevent double-linking
+        'setup-complete' => \App\Http\Middleware\SetupComplete::class, // Prevent leaving the page and being stuck on the home page
     ];
 }

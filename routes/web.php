@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Homepage
-Route::get('/', [HomepageController::class, 'index'])->name('home');
+Route::get('/', [HomepageController::class, 'index'])
+    ->middleware('setup-complete')
+    ->name('home');
 
 Route::get('linked', [HomepageController::class, 'linked'])
     ->middleware(['auth', 'is-linked'])

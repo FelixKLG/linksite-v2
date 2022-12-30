@@ -79,6 +79,14 @@ class User extends Authenticatable
         }
     }
 
+    public function isSetupComplete(): bool {
+        if ($this->steam_id && $this->discord_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getPurchasesAttribute()
     {
         $user_id = $this->attributes["uuid"];
