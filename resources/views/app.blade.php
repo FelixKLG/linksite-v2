@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Scripts -->
+    @if (config('analytics.analytics_enabled'))
+        <script async defer data-website-id={{config('analytics.umami_id')}} src={{config('analytics.umami_url')}}></script>
+    @endif
+
     @routes
     @viteReactRefresh
     @vite('resources/js/app.jsx')
