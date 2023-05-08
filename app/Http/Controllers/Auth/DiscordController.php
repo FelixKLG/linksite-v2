@@ -19,6 +19,10 @@ class DiscordController extends Controller
 
     public function callback(Request $request)
     {
+        if (!$request->has('code')) {
+            return redirect()->route('home');
+        }
+
         $discordUser = Socialite::driver('discord')->user();
 
         if (!User::where('discord_id', $discordUser->id)->exists()) {
@@ -28,13 +32,13 @@ class DiscordController extends Controller
 
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            // AuthController->remove();
+
             return redirect()->route('home');
         }
 
         $this->notification();
         $this->assignRole();
-        
+
         return redirect()->route('linked');
     }
 
