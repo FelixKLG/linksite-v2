@@ -25,3 +25,7 @@ auth.json
 # IDEs
 /.idea
 /.vscode
+
+**/caddy
+frankenphp
+frankenphp-worker.php
